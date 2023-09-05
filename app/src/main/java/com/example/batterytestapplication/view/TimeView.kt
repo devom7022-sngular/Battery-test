@@ -18,7 +18,7 @@ class TimeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : TextView(context, attrs, defStyleAttr) {
+) : androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyleAttr) {
 
     private val startStopPairs = mutableListOf<Pair<Long, Long>>()
     private var latestStartTime = -1L
