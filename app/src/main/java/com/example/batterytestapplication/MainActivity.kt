@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             toggleLocationUpdates(isChecked)
         }
         findViewById<Button>(R.id.download_image).setOnClickListener {
+            Log.e("test1", "test1")
             downloadNewBackground()
         }
     }
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         wl.release()
 
         ///////////////////////////////////////////////////////////////////
-        Debug.stopMethodTracing()
+        //Debug.stopMethodTracing()
     }
 
     private fun resetStopWatch() {
@@ -134,7 +135,7 @@ class MainActivity : AppCompatActivity() {
     private fun startStopWatch(wl: PowerManager.WakeLock) {
         // to show ..in energy profiler , about wake locks , acquire and release
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        Debug.startMethodTracing()
+        //Debug.startMethodTracing()
         wl.acquire()
 
         findViewById<TimeView>(R.id.stop_watch_time).start()
