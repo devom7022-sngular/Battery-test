@@ -1,13 +1,7 @@
 pipeline {
   agent any
 
-  stages {
-
-    stage ('Checkout') {
-      steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/HeribertoME/Battery-test/']]])
-      }      
-    }
+  stages {  
 
     stage ('Build') {
         steps {
