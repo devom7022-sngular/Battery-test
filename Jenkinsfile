@@ -34,7 +34,9 @@ pipeline {
           echo "*****************************"
           sleep 30
         '''
-        // TODO Call script for analice battery stats file
+        script {
+              analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
+          }
       }
     }
 
