@@ -1,5 +1,6 @@
 #!/bin/bash
-filename=${WORDPACE}/batterystats.txt
+cd ${WORKSPACE}
+filename='batterystats.txt'
 n=1
 while read line; do
 
