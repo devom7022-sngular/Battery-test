@@ -5,20 +5,30 @@ pipeline {
 
     stage ('Build') {
         steps {
-        sh ''' 
-          set +x
-          echo "*****************************"
-          echo "* Build :)*"
-          echo "*****************************"
-          ${WORKSPACE}/gradlew build
-        '''
+          sh ''' 
+            set +x
+            echo "********************************************************"
+            echo "*                                                      *"
+            echo "*   🚀 Iniciando el proceso de construcción 🚀          *"
+            echo "*                                                      *"
+            echo "********************************************************"
+            ${WORKSPACE}/gradlew build
+          '''
       }
       
     }
     
     stage ('Test') {
-        steps {
-          // Launch emulator and install debug app
+        steps {          
+          sh ''' 
+            set +x
+            echo "********************************************************"
+            echo "*                                                      *"
+            echo "*          🧪 Iniciando las pruebas 🧪                  *"
+            echo "*                                                      *"
+            echo "********************************************************"
+            ${WORKSPACE}/gradlew build
+          '''          
           script {
               compileAndroid = sh (script: 'bash +x ${WORKSPACE}/scripts/tests.sh')
           }
@@ -29,10 +39,12 @@ pipeline {
       steps {
         sh '''
           set +x
-          echo "*****************************"
-          echo "*Analizing Battery Stats :)*"
-          echo "*****************************"
-          sleep 30
+          echo "**********************************************************"
+          echo "*                                                        *"
+          echo "*   🔋 Iniciando el análisis del consumo de batería 🔋    *"
+          echo "*                                                        *"
+          echo "**********************************************************"
+          sleep 10
         '''
         script {
               analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
