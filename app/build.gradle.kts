@@ -56,4 +56,6 @@ dependencies {
 dependencies {
     implementation(project(":memory:bad"))
     implementation(project(":memory:good"))
+    implementation(project(":cpu:bad"))
+    implementation(project(":cpu:good"))
 }

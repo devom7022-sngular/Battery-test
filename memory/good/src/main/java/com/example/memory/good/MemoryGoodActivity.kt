@@ -1,17 +1,16 @@
-package com.example.bad
+package com.example.memory.good
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bad.databinding.ActivityMemoryBinding
+import com.example.memory.good.databinding.ActivityMemoryGoodBinding
 
-class MemoryActivity : AppCompatActivity() {
+class MemoryGoodActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMemoryBinding
-
+    private lateinit var binding: ActivityMemoryGoodBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMemoryBinding.inflate(layoutInflater)
+        binding = ActivityMemoryGoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.list.layoutManager = LinearLayoutManager(this)
