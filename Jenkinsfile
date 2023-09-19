@@ -46,9 +46,11 @@ pipeline {
           echo "**********************************************************"
           sleep 10
         '''
-        script {
+        ansiColor('xterm') {
+          script {
               analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
           }
+        }        
       }
     }
 
