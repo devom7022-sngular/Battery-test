@@ -6,7 +6,7 @@ pipeline {
     stage ('Build') {
         steps {
           sh ''' 
-            set +x
+            set
             echo "********************************************************"
             echo "*                                                      *"
             echo "*   🚀 Iniciando el proceso de construcción 🚀          *"
@@ -21,7 +21,7 @@ pipeline {
     stage ('Test') {
         steps {          
           sh ''' 
-            set +x
+            set
             echo "********************************************************"
             echo "*                                                      *"
             echo "*          🧪 Iniciando las pruebas 🧪                  *"
@@ -30,7 +30,7 @@ pipeline {
             ${WORKSPACE}/gradlew build
           '''          
           script {
-              compileAndroid = sh (script: 'bash +x ${WORKSPACE}/scripts/tests.sh')
+              compileAndroid = sh (script: 'bash ${WORKSPACE}/scripts/tests.sh')
           }
       }
     }
@@ -38,7 +38,7 @@ pipeline {
     stage('Analize battery stats') {
       steps {
         sh '''
-          set +x
+          set
           echo "**********************************************************"
           echo "*                                                        *"
           echo "*   🔋 Iniciando el análisis del consumo de batería 🔋    *"
