@@ -23,10 +23,10 @@ class TimeView @JvmOverloads constructor(
     private val startStopPairs = mutableListOf<Pair<Long, Long>>()
     private var latestStartTime = -1L
 
-    override fun onDraw(canvas: Canvas?) {
+    /*override fun onDraw(canvas: Canvas?) {
         text = calculateCurrentTime()
         super.onDraw(canvas)
-    }
+    }*/
 
     fun start() {
         if (latestStartTime < 0) {
