@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/stopWatch"
+        android:title="StopWatch"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/timer"
+        android:title="Timer"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/cpuGood"
+        android:title="CPU good"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/cpuBad"
+        android:title="CPU bad"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memoryGood"
+        android:title="Memory good"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memoryBad"
+        android:title="Memory bad"
+        app:showAsAction="never" />
+
+</menu>
