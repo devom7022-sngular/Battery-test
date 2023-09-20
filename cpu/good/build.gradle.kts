@@ -4,11 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.memory.bad"
+    namespace = "com.example.cpu.good"
     compileSdk = 33
 
     defaultConfig {
         minSdk = 24
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }

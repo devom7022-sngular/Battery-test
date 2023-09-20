@@ -22,12 +22,15 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.bad.MemoryActivity
+import com.example.memory.bad.MemoryActivity
 import com.example.batterytestapplication.databinding.ActivityMainBinding
 import com.example.batterytestapplication.location.LocationRequestHelper
 import com.example.batterytestapplication.location.stopLocationUpdates
 import com.example.batterytestapplication.location.triggerLocationUpdates
 import com.example.batterytestapplication.view.TimeView
+import com.example.cpu.bad.CpuActivity
+import com.example.cpu.good.CpuGoodActivity
+import com.example.memory.good.MemoryGoodActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -91,19 +94,23 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.stopWatch -> changeToStopWatch()
                 R.id.timer -> changeToTimer()
-                R.id.cpu -> openCpu()
-                R.id.memory -> openMemory()
+                R.id.cpuGood -> openCpu(true)
+                R.id.cpuBad -> openCpu(false)
+                R.id.memoryGood -> openMemory(true)
+                R.id.memoryBad -> openMemory(false)
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun openMemory() {
-        startActivity(Intent(this, MemoryActivity::class.java))
+    private fun openMemory(isGood: Boolean) {
+        val activity = if (isGood) MemoryGoodActivity::class.java else MemoryActivity::class.java
+        startActivity(Intent(this, activity))
     }
 
-    private fun openCpu() {
-        //todo Crear actividad de CPU startActivity(Intent(this, CpuActivity::class.java))
+    private fun openCpu(isGood: Boolean) {
+        val activity = if (isGood) CpuGoodActivity::class.java else CpuActivity::class.java
+        startActivity(Intent(this, activity))
     }
 
     private fun setClickListeners(wl: PowerManager.WakeLock) {

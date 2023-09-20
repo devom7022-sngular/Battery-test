@@ -17,3 +17,5 @@ rootProject.name = "Battery test application"
 include(":app")
 include(":memory:bad")
 include(":memory:good")
+include(":cpu:good")
+include(":cpu:bad")
