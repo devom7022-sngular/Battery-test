@@ -1,5 +1,15 @@
 pipeline {
   agent any
+  parameters {
+    choice(
+        choices: ['manual', 'automated'],
+        description: 'Selection to make tests',
+        name: 'TESTS_TYPE')
+    string (
+        defaultValue: '2',
+        description: 'Time (in minutes) to keep android emulator active',
+        name: 'EMULATOR_ACTIVE')
+  }
 
   stages {  
 
@@ -30,7 +40,7 @@ pipeline {
             ${WORKSPACE}/gradlew build
           '''          
           script {
-              compileAndroid = sh (script: 'bash ${WORKSPACE}/scripts/tests.sh')
+              compileAndroid = sh (script: 'bash ${WORKSPACE}/scripts/tests.sh ${TESTS_TYPE} ${EMULATOR_ACTIVE}')
           }
       }
     }

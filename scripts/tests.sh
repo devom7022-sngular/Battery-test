@@ -6,36 +6,44 @@ EMULATOR_PID=$!
 echo "Waiting for emulator to finish booting..."
 WAIT_CMD=$($ANDROID_HOME/platform-tools/adb -s emulator-5790 wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82')
 until $WAIT_CMD; do
- sleep 2
+ sleep 1
 done
 
 echo "Emulator reported that the startup process is $EMULATOR_STATUS"
 sleep 10
 #if [[ $EMULATOR_STATUS -eq 1 ]]; then
-  echo "Emulator is ready for use"
-  # Unlock the Lock Screen
-  $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+echo "Emulator is ready for use"
+# Unlock the Lock Screen
+$ANDROID_HOME/platform-tools/adb shell input keyevent 82
 
-  # Clear and capture logcat
-  $ANDROID_HOME/platform-tools/adb logcat -c
-  $ANDROID_HOME/platform-tools/adb logcat > logcat.log &
-  LOGCAT_PID=$!
+# Clear and capture logcat
+$ANDROID_HOME/platform-tools/adb logcat -c
+$ANDROID_HOME/platform-tools/adb logcat > logcat.log &
+LOGCAT_PID=$!
 
-  # Run the tests (TODO)
-  #./gradlew connectedAndroidTest -i
-
+if [ "$1" = "manual" ]; then
   # Install app (Only for manually tests)
   ${WORKSPACE}/gradlew installDebug
-  sleep 10
-  ${WORKSPACE}/gradlew testDebugUnitTest
-   sleep 10
+  let minutes=60*$2
+  echo "Sleep process for $minutes seconds"
+  sleep $minutes
+else
+  # Run automated tests
+  ./gradlew connectedAndroidTest -i
+  #${WORKSPACE}/gradlew testDebugUnitTest
+  #sleep 10
+fi
 
-  #
-  echo "Generating batterystats"
+# Generates battery stats file
+echo "Generating batterystats"
+if [ "$1" = "manual" ]; then
   $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats com.example.batterytestapplication > ${WORKSPACE}/batterystats.txt
-  $ANDROID_HOME/platform-tools/adb bugreport ${WORKSPACE}/bugreport.zip
+else
+  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats com.example.batterytestapplication.test > ${WORKSPACE}/batterystats.txt
+fi
+$ANDROID_HOME/platform-tools/adb bugreport ${WORKSPACE}/bugreport.zip
 
-  # Stop the background processes
-  kill $LOGCAT_PID
-  kill $EMULATOR_PID
+# Stop the background processes
+kill $LOGCAT_PID
+kill $EMULATOR_PID
 #fi
