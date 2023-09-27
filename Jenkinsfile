@@ -56,7 +56,6 @@ pipeline {
           echo "**********************************************************"
           sleep 10
         '''
-        sh readit.sh
 
         ansiColor('xterm') {
           script {
