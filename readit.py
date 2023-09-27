@@ -7,7 +7,7 @@ uIdNamesList = []
 uIdValuesList = []
 doc= open("confluence.txt","w+")
 #fileName = 'batterylogsPhysical.txt'
-fileName = 'batterylogsVirtual.txt'
+fileName = 'batterylogs.txt'
 
 def manageBankData(item): 
     for node in item:
