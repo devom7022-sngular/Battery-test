@@ -56,6 +56,8 @@ pipeline {
           echo "**********************************************************"
           sleep 10
         '''
+        sh readit.sh
+
         ansiColor('xterm') {
           script {
               analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
