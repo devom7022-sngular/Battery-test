@@ -1,11 +1,35 @@
 pipeline {
   agent any
 
-  stages {  
+  parameters {
+    choice(
+        choices: ['android', 'iOS'],
+        description: 'Selection to OS',
+        name: 'OS_TYPE_PARAM')
+    choice(
+        choices: ['manual', 'automated'],
+        description: 'Selection to make tests',
+        name: 'TEST_TYPE_PARAM')
+    string (
+        defaultValue: '2',
+        description: '',
+        name: 'TEST_TIME_PARAM')
+    string (
+        defaultValue: 'false',
+        description: '',
+        name: 'STRICT_MODE_PARAM')
+    string (
+        defaultValue: '2',
+        description: '',
+        name: 'PIVOT_PARAM')
+
+  }
+
+  stages {
 
     stage ('Build') {
         steps {
-          sh ''' 
+          sh '''
             set
             echo "********************************************************"
             echo "*                                                      *"
@@ -15,12 +39,12 @@ pipeline {
             ${WORKSPACE}/gradlew build
           '''
       }
-      
+
     }
-    
+
     stage ('Test') {
-        steps {          
-          sh ''' 
+        steps {
+          sh '''
             set
             echo "********************************************************"
             echo "*                                                      *"
@@ -28,9 +52,9 @@ pipeline {
             echo "*                                                      *"
             echo "********************************************************"
             ${WORKSPACE}/gradlew build
-          '''          
+          '''
           script {
-              compileAndroid = sh (script: 'bash ${WORKSPACE}/scripts/tests.sh')
+              compileAndroid = sh (script: 'bash ${WORKSPACE}/scripts/tests.sh ${PACKAGE_ID_PARAM} ${OS_TYPE_PARAM} ${TEST_TYPE_PARAM} ${TEST_TIME_PARAM} ${STRICT_MODE_PARAM} ${PIVOT_PARAM}')
           }
       }
     }
@@ -46,11 +70,9 @@ pipeline {
           echo "**********************************************************"
           sleep 10
         '''
-        ansiColor('xterm') {
-          script {
+        script {
               analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
-          }
-        }        
+        }
       }
     }
 
