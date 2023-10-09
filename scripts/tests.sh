@@ -23,10 +23,18 @@ $ANDROID_HOME/platform-tools/adb logcat -c
 $ANDROID_HOME/platform-tools/adb logcat > logcat.log &
 LOGCAT_PID=$!
 
-if [ "$1" = "manual" ]; then
+let PACKAGE_ID_PARAM = $1
+let OS_TYPE_PARAM = $2
+let TEST_TYPE_PARAM = $3
+let TEST_TIME_PARAM = $4
+let STRICT_MODE_PARAM = $5
+let PIVOT_PARAM = $6
+
+
+if [ "$TEST_TYPE_PARAM" = "manual" ]; then
   # Install app (Only for manually tests)
   ${WORKSPACE}/gradlew installDebug
-  let minutes=60*$2
+  let minutes=60*$TEST_TIME_PARAM
   echo "Sleep process for $minutes seconds"
   sleep $minutes
 else
@@ -43,10 +51,10 @@ fi
 
 # Generates battery stats file
 echo "Generating batterystats"
-if [ "$1" = "manual" ]; then
-  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats com.example.batterytestapplication > ${WORKSPACE}/batterystats.txt
+if [ "$TEST_TYPE_PARAM" = "manual" ]; then
+  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats "$PACKAGE_ID_PARAM" > ${WORKSPACE}/batterystats.txt
 else
-  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats com.example.batterytestapplication.test > ${WORKSPACE}/batterystats.txt
+  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats "$PACKAGE_ID_PARAM.test" > ${WORKSPACE}/batterystats.txt
 fi
 
 $ANDROID_HOME/platform-tools/adb bugreport ${WORKSPACE}/bugreport.zip
