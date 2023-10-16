@@ -13,7 +13,7 @@ done
 
 echo "Emulator reported that the startup process is $EMULATOR_STATUS"
 sleep 10
-#if [[ $EMULATOR_STATUS -eq 1 ]]; then
+
 echo "Emulator is ready for use"
 # Unlock the Lock Screen
 $ANDROID_HOME/platform-tools/adb shell input keyevent 82
@@ -23,12 +23,10 @@ $ANDROID_HOME/platform-tools/adb logcat -c
 $ANDROID_HOME/platform-tools/adb logcat > logcat.log &
 LOGCAT_PID=$!
 
-let PACKAGE_ID_PARAM = $1
-let OS_TYPE_PARAM = $2
-let TEST_TYPE_PARAM = $3
-let TEST_TIME_PARAM = $4
-let STRICT_MODE_PARAM = $5
-let PIVOT_PARAM = $6
+let PACKAGE_ID_PARAM=$1
+let OS_TYPE_PARAM=$2
+let TEST_TYPE_PARAM=$3
+let TEST_TIME_PARAM=$4
 
 
 if [ "$TEST_TYPE_PARAM" = "manual" ]; then
@@ -39,22 +37,17 @@ if [ "$TEST_TYPE_PARAM" = "manual" ]; then
   sleep $minutes
 else
   # Run automated tests
-  #./gradlew connectedAndroidTest -i
-  #FOR UNIT TEST
-  #${WORKSPACE}/gradlew :app:installDebug
-  #${WORKSPACE}/gradlew :app:testDebugUnitTest
-  #FOR INSTRUMENTATION TEST
-  #${WORKSPACE}/gradlew :app:connectedAndroidTest -i
-  #sleep 10
   ${WORKSPACE}/gradlew :app:connectedCheck :app:installDebug :app:installDebugAndroidTest
 fi
 
 # Generates battery stats file
+echo "Tests is running"
 echo "Generating batterystats"
 if [ "$TEST_TYPE_PARAM" = "manual" ]; then
-  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats "$PACKAGE_ID_PARAM" > ${WORKSPACE}/batterystats.txt
+
+  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats ${PACKAGE_ID_PARAM} > ${WORKSPACE}/batterystats.txt
 else
-  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats "$PACKAGE_ID_PARAM.test" > ${WORKSPACE}/batterystats.txt
+  $ANDROID_HOME/platform-tools/adb shell dumpsys batterystats ${PACKAGE_ID_PARAM%.test} > ${WORKSPACE}/batterystats.txt
 fi
 
 $ANDROID_HOME/platform-tools/adb bugreport ${WORKSPACE}/bugreport.zip
@@ -62,4 +55,3 @@ $ANDROID_HOME/platform-tools/adb bugreport ${WORKSPACE}/bugreport.zip
 # Stop the background processes
 kill $LOGCAT_PID
 kill $EMULATOR_PID
-#fi
