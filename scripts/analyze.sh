@@ -1,7 +1,13 @@
 #!/bin/bash
+
+let STRICT_MODE_PARAM="$1"
+let PIVOT_PARAM=$2
+let STAGE_SUCCESS="true"
+
 cd ${WORKSPACE}
 filename='batterystats.txt'
 n=1
+
 while read line; do
 
     if [[ $line == *"Estimated power use"* ]]; then
@@ -19,3 +25,9 @@ while read line; do
     n=$((n+1))
 
 done < "$filename"
+
+if ["$STRICT_MODE_PARAM" = "true" && "$STAGE_SUCCESS" = "true" ]; then
+  error("NOT OPTIMAL ENERGY EFFICIENCY")
+else
+  echo "OPTIMAL ENERGY EFFICIENCY"
+fi
