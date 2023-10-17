@@ -70,6 +70,8 @@ pipeline {
           echo "**********************************************************"
           sleep 10
         '''
+
+        sh 'readit.sh'
         script {
               analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
         }
