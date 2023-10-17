@@ -84,6 +84,7 @@ with open(fileName) as file:
                 line = line.strip()
                 indexChilds = line.index('(')
                 mainData = re.split(' ',line[0:indexChilds].strip())
+                #add params and values to array
                 for i in range(1,len(mainData)):
                     if ":" in mainData[i] :
                         uIdNamesList.append(mainData[i])
@@ -91,29 +92,49 @@ with open(fileName) as file:
                     else:
                         uIdValuesList.append(mainData[i])
                 
+                #manage data child
                 childData = line[indexChilds+1: len(line)-1 ]
-                childData = childData.replace(":",">").replace(")","),").replace("=",":=").replace(" (","(")
-                childData = re.split(',',childData)
+                cildrenArr = re.split('=',childData)
+                
+                uIdNamesList.append(cildrenArr[0].strip())
 
-                for i in range(0,len(childData)-1):
-                    values = childData[i].count(':=') 
-                    if values > 1:
-                        nesteds = re.split(" ",childData[i])
-                        childData.pop(i)
-                        for j in range(len(nesteds)):
-                            childData.append(nesteds[j])
+                for i in range(1,len(cildrenArr)-1):
+                    segment= cildrenArr[i].strip()
+                    cutSegment= re.split(' ',segment)
+                    nextValue = cutSegment[len(cutSegment)-1]
+                    indexSegment = segment.index(nextValue)
+                    firstName = segment[0:indexSegment]
+                    uIdValuesList.append(firstName)
+                    uIdNamesList.append(nextValue)
+                    print(nextValue,indexSegment, firstName)
 
-                for child in childData:
-                    child = re.split('=',child.strip())
+                    
+                uIdValuesList.append(cildrenArr[len(cildrenArr)-1])
+                
 
-                    if len(child) == 1:
-                        continue
 
-                    for i in range(0,len(child)):
-                        if ":" in child[i] :
-                            uIdNamesList.append(child[i].strip())
-                        else:
-                            uIdValuesList.append(child[i].strip())
+                # childData = childData.replace(":",">").replace(")","),").replace("=",":=").replace(" (","(")
+                # childData = re.split(',',childData)
+
+                # for i in range(0,len(childData)-1):
+                #     values = childData[i].count(':=') 
+                #     if values > 1:
+                #         nesteds = re.split(" ",childData[i])
+                #         childData.pop(i)
+                #         for j in range(len(nesteds)):
+                #             childData.append(nesteds[j])
+
+                # for child in childData:
+                #     child = re.split('=',child.strip())
+
+                #     if len(child) == 1:
+                #         continue
+
+                #     for i in range(0,len(child)):
+                #         if ":" in child[i] :
+                #             uIdNamesList.append(child[i].strip())
+                #         else:
+                #             uIdValuesList.append(child[i].strip())
             
 #Empieza a escribir .txt
 #if(isPhysical == False):
@@ -131,8 +152,6 @@ while i <= len(uIdNamesList) - 1:
     #doc.writelines(createLine)
     i += 1
 
-print("row",tableNames)
-##table = [tableNames]
 tabFull = tabulate(tableNames,["Campos","Valor"])
 print(tabFull)
 doc.writelines(tabFull)
