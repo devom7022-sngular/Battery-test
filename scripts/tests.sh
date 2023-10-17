@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 $ANDROID_HOME/emulator/emulator -avd FirstEmulator -wipe-data -port 5790 &
 EMULATOR_PID=$!
 

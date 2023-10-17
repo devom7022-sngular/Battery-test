@@ -71,9 +71,24 @@ pipeline {
           sleep 10
         '''
 
-        sh 'readit.sh'
         script {
               analizeBattery = sh (script: 'bash ${WORKSPACE}/scripts/analyze.sh')
+        }
+      }
+
+      steps {
+        sh '''
+          set
+          echo "**********************************************************"
+          echo "*                                                        *"
+          echo "*   🔨 Construyendo archivo 🔨    *"
+          echo "*                                                        *"
+          echo "**********************************************************"
+          sleep 10
+        '''
+
+        script {
+              buildFile = sh (script: 'bash ${WORKSPACE}/redit.sh')
         }
       }
     }

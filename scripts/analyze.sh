@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 let STRICT_MODE_PARAM="$1"
 let PIVOT_PARAM=$2
